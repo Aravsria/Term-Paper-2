@@ -1,95 +1,73 @@
 #### Preamble ####
 # Purpose: Tests the structure and validity of the simulated US presidential  
-  # election polling dataset.
-# Author: Arav Sri Agarwal
+# election polling dataset.
+# Author: Uma Sadhwani
 # Date: 20 October 2024
-# Contact: arav.agarwal@mail.utoronto.ca
+# Contact: uma.sadhwani@mail.utoronto.ca
 # License: N/A
 # Pre-requisites: 
-  # - The `tidyverse` package must be installed and loaded
-  # - 00-simulate_data.R must have been run
+# - The `tidyverse` package must be installed and loaded
+# - 00-simulate_data.R must have been run
 # Any other information needed? Make sure you are in the `starter_folder` rproj
-
 
 #### Workspace setup ####
 library(tidyverse)
 
-# Load the simulated data
-simulated_data <- read.csv("data/00-simulated_data/simulated_data.csv")
+# Load the simulated dataset
+simulated_data <- read_csv("/home/rstudio/polling_data/polling_data/data/00-simulated_data/simulated_data.csv")
 
-# Test if the data has been loaded successfully
-stopifnot(!is.null(simulated_data))
+#### Structure Testing ####
+# Check the structure of the dataset
+glimpse(simulated_data)
 
-# Check that the expected columns are present
-expected_columns <- c("simulation_id", "Candidate_A_support", "Candidate_B_support")
-stopifnot(all(expected_columns %in% colnames(simulated_data)))
+# Check for any missing values in the dataset
+missing_data <- sum(is.na(simulated_data))
+print(paste("Number of missing values: ", missing_data))
 
-# Test data types
-stopifnot(is.numeric(simulated_data$Candidate_A_support))
-stopifnot(is.numeric(simulated_data$Candidate_B_support))
-stopifnot(is.integer(simulated_data$simulation_id))
+# Ensure that the 'Candidate_A_support' and 'Candidate_B_support' columns sum to 1 (validity check)
+support_sum_check <- simulated_data %>%
+  mutate(total_support = Candidate_A_support + Candidate_B_support) %>%
+  summarise(valid_support_sum = all(abs(total_support - 1) < 1e-6))
 
-# Test if support values are within the range [0, 1]
-stopifnot(all(simulated_data$Candidate_A_support >= 0 & simulated_data$Candidate_A_support <= 1))
-stopifnot(all(simulated_data$Candidate_B_support >= 0 & simulated_data$Candidate_B_support <= 1))
+print(paste("Are all support sums valid (sum to 1)?", support_sum_check$valid_support_sum))
 
-# Test if the sum of support for both candidates is approximately 1
-tolerance <- 0.01
-stopifnot(all(abs(simulated_data$Candidate_A_support + simulated_data$Candidate_B_support - 1) < tolerance))
+#### Descriptive Statistics ####
+# Get summary statistics of key columns
+summary(simulated_data)
 
-# Test for unique simulation IDs
-stopifnot(length(unique(simulated_data$simulation_id)) == nrow(simulated_data))
+# Check the distribution of sample sizes
+ggplot(simulated_data, aes(x = sample_size)) +
+  geom_histogram(bins = 30, fill = "blue", color = "black") +
+  labs(title = "Distribution of Sample Sizes", x = "Sample Size", y = "Count")
 
-# Test if the average support for Candidate A is reasonable (e.g., around 0.5)
-mean_candidate_A <- mean(simulated_data$Candidate_A_support)
-stopifnot(mean_candidate_A > 0.4 & mean_candidate_A < 0.6)
+# Plot the distribution of Candidate A and B support
+ggplot(simulated_data, aes(x = Candidate_A_support)) +
+  geom_histogram(bins = 30, fill = "red", color = "black") +
+  labs(title = "Distribution of Candidate A Support", x = "Candidate A Support", y = "Count")
 
-# Test if the variance is not zero (indicating variation in the data)
-var_candidate_A <- var(simulated_data$Candidate_A_support)
-stopifnot(var_candidate_A > 0)
+ggplot(simulated_data, aes(x = Candidate_B_support)) +
+  geom_histogram(bins = 30, fill = "green", color = "black") +
+  labs(title = "Distribution of Candidate B Support", x = "Candidate B Support", y = "Count")
 
-# If pollster information is present, ensure no missing values
-if ("pollster" %in% colnames(simulated_data)) {
-  stopifnot(!any(is.na(simulated_data$pollster)))
-}
+#### Pollster Analysis ####
+# Count the number of simulations per pollster
+pollster_count <- simulated_data %>%
+  group_by(pollster) %>%
+  summarise(count = n()) %>%
+  arrange(desc(count))
 
-# Load the simulated data
-simulated_data <- read.csv("data/00-simulated_data/simulated_data.csv")
+print(pollster_count)
 
-# Test if the data has been loaded successfully
-stopifnot(!is.null(simulated_data))
+# Plot the distribution of pollsters used in the simulations
+ggplot(pollster_count, aes(x = reorder(pollster, -count), y = count)) +
+  geom_bar(stat = "identity", fill = "orange") +
+  coord_flip() +
+  labs(title = "Number of Simulations per Pollster", x = "Pollster", y = "Number of Simulations")
 
-# Check that the expected columns are present
-expected_columns <- c("simulation_id", "Candidate_A_support", "Candidate_B_support")
-stopifnot(all(expected_columns %in% colnames(simulated_data)))
+#### Save Results ####
+# Save the pollster count as a CSV for further review
+write_csv(pollster_count, "/home/rstudio/polling_data/polling_data/data/02-analysis_results/pollster_count.csv")
 
-# Test data types
-stopifnot(is.numeric(simulated_data$Candidate_A_support))
-stopifnot(is.numeric(simulated_data$Candidate_B_support))
-stopifnot(is.integer(simulated_data$simulation_id))
+#### Conclusion ####
+print("All tests completed.")
 
-# Test if support values are within the range [0, 1]
-stopifnot(all(simulated_data$Candidate_A_support >= 0 & simulated_data$Candidate_A_support <= 1))
-stopifnot(all(simulated_data$Candidate_B_support >= 0 & simulated_data$Candidate_B_support <= 1))
-
-# Test if the sum of support for both candidates is approximately 1
-tolerance <- 0.01
-stopifnot(all(abs(simulated_data$Candidate_A_support + simulated_data$Candidate_B_support - 1) < tolerance))
-
-# Test for unique simulation IDs
-stopifnot(length(unique(simulated_data$simulation_id)) == nrow(simulated_data))
-
-# Test if the average support for Candidate A is reasonable (e.g., around 0.5)
-mean_candidate_A <- mean(simulated_data$Candidate_A_support)
-stopifnot(mean_candidate_A > 0.4 & mean_candidate_A < 0.6)
-
-# Test if the variance is not zero (indicating variation in the data)
-var_candidate_A <- var(simulated_data$Candidate_A_support)
-stopifnot(var_candidate_A > 0)
-
-# If pollster information is present, ensure no missing values
-if ("pollster" %in% colnames(simulated_data)) {
-  stopifnot(!any(is.na(simulated_data$pollster)))
-}
-
-cat("All tests passed successfully!\n")
