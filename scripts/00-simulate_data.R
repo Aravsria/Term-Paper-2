@@ -1,19 +1,20 @@
 #### Preamble ####
 # Purpose: Simulates a dataset of the US presidential general election polling outcomes,
-  # for a specific pollster which includes the polling duration, sample size,
-  # and answers (candidate name)
-# Author: Arav Sri Agarwal
+# for a specific pollster which includes the polling duration, sample size,
+# and answers (candidate name)
+# Author: Uma Sadhwani
 # Date: 20 October 2024
-# Contact: arav.agarwal@mail.utoronto.ca
+# Contact: uma.sadhwani@mail.utoronto.ca
 # License: N/A
 # Pre-requisites: The `tidyverse` package must be installed
 # Any other information needed? Make sure you are in the `starter_folder` rproj
 
-
 #### Workspace setup ####
 library(tidyverse)
 set.seed(242)
-simulated_data <- read.csv("data/01-raw_data/president_polls.csv")
+
+# Read the original data
+polling_data <- read.csv("/home/rstudio/polling_data/polling_data/data/01-raw_data/president_polls.csv")
 
 #### Simulate data ####
 
@@ -42,7 +43,7 @@ simulated_data <- simulated_data %>%
   mutate(Candidate_A_support = ifelse(runif(num_simulations) < 0.1, Candidate_A_support * 1.05, Candidate_A_support), # 10% chance of bias increasing support by 5%
          Candidate_B_support = 1 - Candidate_A_support)
 
-# Assuming pollster data is available in the original dataset
+# Use pollsters from the original dataset
 pollsters <- unique(polling_data$pollster)
 simulated_data$pollster <- sample(pollsters, num_simulations, replace = TRUE)
 
@@ -57,4 +58,4 @@ simulated_data <- simulated_data %>%
          Candidate_B_support = 1 - Candidate_A_support)
 
 #### Save data ####
-write.csv(simulated_data, "data/00-simulated_data/simulated_data.csv", row.names = FALSE)
+write.csv(simulated_data, "/home/rstudio/polling_data/polling_data/data/01-raw_data/raw_data.csv", row.names = FALSE)
