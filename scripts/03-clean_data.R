@@ -1,44 +1,38 @@
 #### Preamble ####
-# Purpose: Cleans the raw plane data recorded by two observers..... [...UPDATE THIS...]
-# Author: Arav Sri Agarwal
-# Date: 20 October 2024
-# Contact: arav.agarwal@mail.utoronto.ca
-# License: N/A
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Purpose: Cleans the raw US presidential general election polling data used in the model.
+# Author: Uma Sadhwani
+# Date: 21 October 2024
+# Contact: uma.sadhwani@mail.utoronto.ca
+# License: MIT
+# Pre-requisites: The `tidyverse` and `janitor` packages must be installed.
+# Any other information needed? Ensure the raw data is located in the correct file path.
 
 #### Workspace setup ####
 library(tidyverse)
+library(janitor)
 
 #### Clean data ####
-raw_data <- read_csv("inputs/data/plane_data.csv")
+# Load the raw polling data
+raw_data <- read_csv("/home/rstudio/polling_data/polling_data/data/01-raw_data/president_polls.csv")
 
-cleaned_data <-
-  raw_data |>
-  janitor::clean_names() |>
-  select(wing_width_mm, wing_length_mm, flying_time_sec_first_timer) |>
-  filter(wing_width_mm != "caw") |>
+# Clean the dataset
+analysis_data <- 
+  raw_data %>%
+  janitor::clean_names() %>%  # Clean column names
+  select(pollster, pollscore, sample_size, candidate_name, pct) %>%  # Select relevant columns
+  filter(!is.na(pollscore), !is.na(sample_size), !is.na(pct)) %>%  # Filter out rows with missing data in key columns
   mutate(
-    flying_time_sec_first_timer = if_else(flying_time_sec_first_timer == "1,35",
-                                   "1.35",
-                                   flying_time_sec_first_timer)
-  ) |>
-  mutate(wing_width_mm = if_else(wing_width_mm == "490",
-                                 "49",
-                                 wing_width_mm)) |>
-  mutate(wing_width_mm = if_else(wing_width_mm == "6",
-                                 "60",
-                                 wing_width_mm)) |>
-  mutate(
-    wing_width_mm = as.numeric(wing_width_mm),
-    wing_length_mm = as.numeric(wing_length_mm),
-    flying_time_sec_first_timer = as.numeric(flying_time_sec_first_timer)
-  ) |>
-  rename(flying_time = flying_time_sec_first_timer,
-         width = wing_width_mm,
-         length = wing_length_mm
-         ) |> 
-  tidyr::drop_na()
+    pct = as.numeric(pct),  # Ensure percentage (pct) is numeric
+    pollscore = as.numeric(pollscore),  # Ensure pollscore is numeric
+    sample_size = as.integer(sample_size)  # Ensure sample_size is integer
+  ) %>%
+  filter(pct >= 0 & pct <= 100) %>%  # Ensure pct values are between 0 and 100
+  rename(
+    candidate_support = pct,  # Rename pct column to make it more descriptive
+    pollster_score = pollscore  # Rename pollscore column
+  ) %>%
+  drop_na()  # Drop any rows that still have NA values after cleaning
 
 #### Save data ####
-write_csv(cleaned_data, "outputs/data/analysis_data.csv")
+# Save the cleaned dataset
+write_csv(analysis_data, "/home/rstudio/polling_data/polling_data/data/02-analysis_data/analysis_data.csv")
