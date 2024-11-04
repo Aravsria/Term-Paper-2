@@ -13,7 +13,7 @@ library(janitor)
 
 #### Clean data ####
 # Load the raw polling data
-raw_data <- read_csv("/home/rstudio/polling_data/polling_data/data/01-raw_data/president_polls.csv")
+raw_data <- read_csv("data/01-raw_data/president_polls.csv")
 
 # Clean the dataset
 analysis_data <- 
@@ -35,4 +35,4 @@ analysis_data <-
 
 #### Save data ####
 # Save the cleaned dataset
-write_csv(analysis_data, "/home/rstudio/polling_data/polling_data/data/02-analysis_data/analysis_data.csv")
+write_csv(analysis_data, "data/02-analysis_data/analysis_data.csv")
