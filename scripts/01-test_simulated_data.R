@@ -14,7 +14,7 @@
 library(tidyverse)
 
 # Load the simulated dataset
-simulated_data <- read_csv("/home/rstudio/polling_data/polling_data/data/00-simulated_data/simulated_data.csv")
+simulated_data <- read_csv("data/00-simulated_data/simulated_data.csv")
 
 #### Structure Testing ####
 # Check the structure of the dataset
