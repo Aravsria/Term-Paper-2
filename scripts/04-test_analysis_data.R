@@ -12,7 +12,7 @@ library(tidyverse)
 library(testthat)
 
 # Load the cleaned dataset
-analysis_data <- read_csv("/home/rstudio/polling_data/polling_data/data/02-analysis_data/analysis_data.csv")
+analysis_data <- read_csv("data/02-analysis_data/analysis_data.csv")
 
 # Convert sample_size to integer (in case it's read as double)
 analysis_data <- analysis_data %>%
