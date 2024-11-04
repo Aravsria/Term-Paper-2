@@ -14,7 +14,7 @@ library(rstanarm)
 
 #### Read data ####
 # Load the cleaned dataset
-analysis_data <- read_csv("/home/rstudio/polling_data/polling_data/data/02-analysis_data/analysis_data.csv")
+analysis_data <- read_csv("data/02-analysis_data/analysis_data.csv")
 
 #### Model data ####
 # Define the model: Predict candidate support based on pollster score and sample size
@@ -33,7 +33,7 @@ election_model <-
 # Save the fitted model to a file for future analysis
 saveRDS(
   election_model,
-  file = "/home/rstudio/polling_data/polling_data/models/election_model.rds"
+  file = "models/election_model.rds"
 )
 
 #### Conclusion ####
