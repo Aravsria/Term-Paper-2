@@ -14,7 +14,7 @@ library(tidyverse)
 set.seed(242)
 
 # Read the original data
-polling_data <- read.csv("/home/rstudio/polling_data/polling_data/data/01-raw_data/president_polls.csv")
+polling_data <- read.csv("data/01-raw_data/president_polls.csv")
 
 #### Simulate data ####
 
@@ -58,4 +58,4 @@ simulated_data <- simulated_data %>%
          Candidate_B_support = 1 - Candidate_A_support)
 
 #### Save data ####
-write.csv(simulated_data, "/home/rstudio/polling_data/polling_data/data/01-raw_data/raw_data.csv", row.names = FALSE)
+write.csv(simulated_data, "data/00-simulated_data/simulated_data.csv", row.names = FALSE)
