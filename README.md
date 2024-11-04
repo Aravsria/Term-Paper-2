@@ -2,8 +2,6 @@
 
 ## Overview
 
-This repo provides students with a foundation for their own projects associated with *Telling Stories with Data*. You do not need every aspect for every paper and you should delete aspects that you do not need.
-
 This repository contains the code and data used to complete forecast the 2024 U.S. Presidential Election. It was created by Arav Sri Agarwal and Uma Sadhwani. This forecast was executed by using Presidential polling data from FiveThirtyEight. The forecast employs the poll-of-polls method and Bayesian modeling.
 
 ## File Structure
