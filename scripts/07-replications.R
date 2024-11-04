@@ -11,7 +11,7 @@ library(tidyverse)
 
 #### Load data ####
 # Load the cleaned dataset for analysis
-analysis_data <- read_csv("/home/rstudio/polling_data/polling_data/data/02-analysis_data/analysis_data.csv")
+analysis_data <- read_csv("data/02-analysis_data/analysis_data.csv")
 
 #### Replicate graphs ####
 
