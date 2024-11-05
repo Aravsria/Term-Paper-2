@@ -1,13 +1,13 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
+title: "Forecasting the U.S.A 2024 Presidential Election"
+subtitle: "Using the Polls of Polls Method and Bayesian Modelling to Predict Polling Averages and Support Levels for Trump and Harris"
 author: 
   - Arav Sri Agarwal
   - Uma Sadhwani
-thanks: "Code and data are available at: "
+thanks: "Code and data are available at: https://github.com/Aravsria/US-Presidential-Polling-Forecast-2024"
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "In our paper, we utilized the Poll of Polls method along with a Bayesian model in order to estimate support levels and effectively predict the winner of the upcoming USA presidential election."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -200,19 +200,20 @@ Weaknesses and next steps should also be included.
 
 # Appendix 1 {#sec-appendix-1}
 
-Pick one pollster in your sample, and deep-dive on their methodology in an appendix to your paper. In particular, in addition to conveying a sense of the pollster of interest, this appendix should include a discussion of the survey’s methodology, and its key features, strengths, and weaknesses. For instance:
-- what is the population, frame, and sample;
-- how is the sample recruited;
-- what sampling approach is taken, and what are some of the trade-offs of this;
-- how is non-response handled;
-- what is good and bad about the questionnaire.
+Sampling Approach and Pollster Methodology
 
+The Times/Siena late October 2024 battleground poll uses a sampling technique known as response-rate-adjusted stratified sampling. This probability-based approach divides the voter population in the seven battleground states into specific categories or strata. These strata are based on various characteristics, including legislative district, political affiliation, ethnicity, gender, marital status, household size, voting history, age, and home ownership statusomly selecting individuals within each stratum, the poll aims to achieve a representative sample of likely voters across these states. Adjustments are made for different selection probabilities within each stratum, considering the likelihood of each respondent participating in the 2024 election. These adjustments help align the sample with the projected composition of the electorate in 2024.
 
+Additreater weight is assigned to groups that were underrepresented in the sample to reduce the impact of non-response bias. This approach addresses historical biases observed in the 2016 and 2020 elections, where pollsters were found to have underestimated support for Trump due to non-response bias . The final sampl poll included 7,879 likely voters from the seven battleground states: Arizona, Nevada, Georgia, North Carolina, Wisconsin, Michigan, and Pennsylvania. Specifically, there were 1,025 from Arizona, 1,010 from Nevada, 1,004 from Georgia, 1,010 from North Carolina, 1,305 from Wisconsin, 998 from Michigan, and 1,527 from Pennsylvania . Furthermore, the sample nsin was supplemented with additional unregistered voters, acknowledging the state’s record of substantial same-day voter registration.
+
+The advantage of the Times/Siena poll lies in its concentrated focus on key battleground states and the use of stratified sampling. By honing in on seven critical states instead of the national popular vote, the poll can make predictions about the election outcome based on state-specific data. Stratified sampling also helps mitigate issues of non-response bias and the under-representation of certain groups, such as Trump supporters. This is achieved by weighting each stratum to reflect the overall population distribution and adjusting for the likelihood of responses from typically underrepresented groups.
+
+The Times/Siena polls, however, do not use patterns as a weighting criterion, which has been controversial. While this approach avoids the potential pitfalls of past election recall bias, it could overlook the stabilizing effects of historical voting patterns. Some research has shown that recalling previous voting behavior could make polls more accurate, particularly given the observed patterns since 2004 where recalling vote history has influenced poll reliability and support estimates.
 
 
 # Appendix 2 {#sec-appendix-2}
 
-put together an idealized methodology and survey that you would run if you had a budget of $100K and the task of forecasting the US presidential election. You should detail the sampling approach that you would use, how you would recruit respondents, data validation, and any other relevant aspects of interest. Also be careful to address any poll aggregation or other features of your methodology. You should actually implement your survey using a survey platform like Google Forms. A link to this should be included in the appendix. Additionally, a copy of the survey should be included in the appendix.
+An idealized methodology and survey that we would run if you had a budget of $100K and the task of forecasting the US presidential election. You should detail the sampling approach that you would use, how you would recruit respondents, data validation, and any other relevant aspects of interest. Also be careful to address any poll aggregation or other features of your methodology. You should actually implement your survey using a survey platform like Google Forms. A link to this should be included in the appendix. Additionally, a copy of the survey should be included in the appendix.
 
 
 
